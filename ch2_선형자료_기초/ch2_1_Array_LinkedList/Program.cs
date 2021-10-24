@@ -8,6 +8,12 @@ namespace ch2_1_Array_LinkedList
         {
             Console.CursorVisible = false; // 커서 안보이도록 설정
 
+            Board board = new Board();
+            board.List_Initialize();
+            board.MyList_Initialize();
+
+
+
             const int WAIT_TICK = (1 * 1000) / 30;  // ms 이기 때문에 1000을 곱해줘야함
             const char CIRCLE = '\u25cf';
 
