@@ -11,6 +11,8 @@ namespace ch2_1_Array_LinkedList
             Board board = new Board();
             board.List_Initialize();
             board.MyList_Initialize();
+            board.LinkedList_Initialize();
+            board.MyLinkedList_Initialize();
 
 
 

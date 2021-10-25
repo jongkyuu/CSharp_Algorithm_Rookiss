@@ -49,6 +49,47 @@ namespace ch2_1_Array_LinkedList
         }
     }
 
+    // LinkedList 연습
+    class Room<T>
+    {
+        public T Data;
+        // 방을 가르키는 주소가 있음(참조)
+        public Room<T> Next;  // 다음 방의 주소값
+        public Room<T> Prev;  // 이전 방의 주소값
+    }
+
+    class RoomList<T>
+    {
+        public Room<T> Head = null; // 첫번째 방. 실시간으로 정보를 갱신해야함
+        public Room<T> Tail = null; // 마지막 방. 실시간으로 정보를 갱신해야함
+        public int Count = 0;
+
+        //public int* pHead = &Head;
+
+        public Room<T> AddLast(T data)
+        {
+            Room<T> newRoom = new Room<T>();
+            newRoom.Data = data;
+            // 만약에 아직 방이 없었다면 새로 추가한 방이 곧 Head이다.
+            if (Head == null)
+                Head = newRoom;
+
+            // 101 102 103 104
+            // 기존 [마지막 방]과 [새로 추가되는 방]을 연결해준다
+            if(Tail != null)
+            {
+                Tail.Next = newRoom;
+                newRoom.Prev = Tail;
+            }
+
+            // [새로 추가되는 방]을 [마지막 방]으로 지정
+            Tail = newRoom;
+            Count++;
+            return newRoom;
+        }
+
+    }
+
     class Board   // 맵 정보 관리 클래스
     {
         // 정보를 어떻게 들고있어야 하는가?
@@ -60,12 +101,16 @@ namespace ch2_1_Array_LinkedList
         // 직접 만든 List 테스트
         public MyList<int> _mydata = new MyList<int>();
 
+        // 직접 만든 LinkedList 테스트
+        public RoomList<int> _myLinkedList = new RoomList<int>();
+
         // 맵은 대부분 고정적인 상태이므로 연결리스트를 사용하는건 딱히 좋은 선택이 아님
         // 배열 사이즈를 유동적으로 늘렸다 줄였다 할 수 있는 장점. 맵은 딱히 사이즈가 변하지 않음
         // 따라서 맵의 경우 배열을 사용하는게 가장 합리적임
 
         public void Initialize()  // 맵 정보 초기화
         {
+
         }
 
         public void List_Initialize()  // 맵 정보 초기화
@@ -90,6 +135,24 @@ namespace ch2_1_Array_LinkedList
 
             int temp = _mydata[2];
             _mydata.RemoveAt(2);
+        }
+
+        public void LinkedList_Initialize()
+        {
+            _data3.AddLast(101);
+            _data3.AddLast(102);
+            _data3.AddLast(103);
+            LinkedListNode<int> node = _data3.AddLast(104);
+            _data3.AddLast(105);
+
+            _data3.Remove(node);
+        }
+
+        public void MyLinkedList_Initialize()
+        {
+            _myLinkedList.AddLast(101);
+            _myLinkedList.AddLast(102);
+            _myLinkedList.AddLast(103);
         }
     }
 }
