@@ -50,25 +50,26 @@ namespace ch2_1_Array_LinkedList
     }
 
     // LinkedList 연습
-    class Room<T>
+    class MyLinkedListNode<T>
     {
         public T Data;
         // 방을 가르키는 주소가 있음(참조)
-        public Room<T> Next;  // 다음 방의 주소값
-        public Room<T> Prev;  // 이전 방의 주소값
+        public MyLinkedListNode<T> Next;  // 다음 방의 주소값
+        public MyLinkedListNode<T> Prev;  // 이전 방의 주소값
     }
 
-    class RoomList<T>
+    class MyLinkedList<T>
     {
-        public Room<T> Head = null; // 첫번째 방. 실시간으로 정보를 갱신해야함
-        public Room<T> Tail = null; // 마지막 방. 실시간으로 정보를 갱신해야함
+        public MyLinkedListNode<T> Head = null; // 첫번째 방. 실시간으로 정보를 갱신해야함
+        public MyLinkedListNode<T> Tail = null; // 마지막 방. 실시간으로 정보를 갱신해야함
         public int Count = 0;
 
         //public int* pHead = &Head;
-
-        public Room<T> AddLast(T data)
+        
+        // O(1), 마지막에 추가하는건 상수시간
+        public MyLinkedListNode<T> AddLast(T data)
         {
-            Room<T> newRoom = new Room<T>();
+            MyLinkedListNode<T> newRoom = new MyLinkedListNode<T>();
             newRoom.Data = data;
             // 만약에 아직 방이 없었다면 새로 추가한 방이 곧 Head이다.
             if (Head == null)
@@ -88,6 +89,28 @@ namespace ch2_1_Array_LinkedList
             return newRoom;
         }
 
+        // O(1)
+        public void Remove(MyLinkedListNode<T> room)
+        {
+            // [기존 첫번째 방의 다음 방]을 [첫번째 방]으로 지정
+            if (Head == room)
+                Head = Head.Next;
+
+            // [기존 마지막 방의 이전 방]을 [마지막 방]으로 인정
+            if (Tail == room)
+                Tail = Tail.Prev;
+
+            // 이전 방이 null이 아니라면 이전 방의 Next를 기존 방의 Next와 연결(현재 방이 지워지므로)
+            if (room.Prev != null)
+                room.Prev.Next = room.Next;
+
+            // 다음 방이 null이 아니라면 다음 방의 Prev을 현재 방의 Prev과 연결(현재 방이 지워지므로)
+            if (room.Next != null)
+                room.Next.Prev = room.Prev;
+
+            Count--;
+        }
+
     }
 
     class Board   // 맵 정보 관리 클래스
@@ -102,7 +125,7 @@ namespace ch2_1_Array_LinkedList
         public MyList<int> _mydata = new MyList<int>();
 
         // 직접 만든 LinkedList 테스트
-        public RoomList<int> _myLinkedList = new RoomList<int>();
+        public MyLinkedList<int> _myLinkedList = new MyLinkedList<int>();
 
         // 맵은 대부분 고정적인 상태이므로 연결리스트를 사용하는건 딱히 좋은 선택이 아님
         // 배열 사이즈를 유동적으로 늘렸다 줄였다 할 수 있는 장점. 맵은 딱히 사이즈가 변하지 않음
@@ -152,7 +175,13 @@ namespace ch2_1_Array_LinkedList
         {
             _myLinkedList.AddLast(101);
             _myLinkedList.AddLast(102);
-            _myLinkedList.AddLast(103);
+            MyLinkedListNode<int> node = _myLinkedList.AddLast(103);
+            _myLinkedList.AddLast(104);
+            _myLinkedList.AddLast(105);
+
+            _myLinkedList.Remove(node);
+
+
         }
     }
 }
