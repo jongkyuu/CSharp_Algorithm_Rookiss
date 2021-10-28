@@ -8,7 +8,8 @@ namespace ch3_MapCreate
         {
             Console.CursorVisible = false; // 커서 안보이도록 설정
             Board board = new Board();
-            board.Initialize(25);
+            //board.Initialize(25);
+            board.BinaryTreeMaze(25);
 
 
             const int WAIT_TICK = (1 * 1000) / 30;  // ms 이기 때문에 1000을 곱해줘야함
