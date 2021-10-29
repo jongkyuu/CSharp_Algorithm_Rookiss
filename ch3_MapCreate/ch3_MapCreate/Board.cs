@@ -43,9 +43,9 @@ namespace ch3_MapCreate
             _tile = new TileType[size, size];
             _size = size;
 
-            // Mazes for Programmers
-
-            GenerateByBinaryTree();
+            // Mazes for Programmers 책에 나오는 알고리즘
+            //GenerateByBinaryTree();
+            GenerateBySideWinder();
         }
 
         void GenerateByBinaryTree()
@@ -72,6 +72,7 @@ namespace ch3_MapCreate
                     if (x % 2 == 0 || y % 2 == 0)
                         continue;
 
+                    #region 맨 오른쪽, 맨 아래 벽 뚫리는걸 방지하는 부분
                     if (y == _size - 2 && x == _size - 2)
                         continue;
 
@@ -86,6 +87,7 @@ namespace ch3_MapCreate
                         _tile[y + 1, x] = TileType.Empty;
                         continue;
                     }
+                    #endregion
 
                     if (rand.Next(0, 2) == 0)
                     {
@@ -93,6 +95,64 @@ namespace ch3_MapCreate
                     }
                     else
                         _tile[y + 1, x] = TileType.Empty;
+
+                }
+            }
+        }
+
+        void GenerateBySideWinder()
+        {
+            // 우선 길을 다 막아버리는 작업
+            for (int y = 0; y < _size; y++)
+            {
+                for (int x = 0; x < _size; x++)
+                {
+                    if (x % 2 == 0 || y % 2 == 0)
+                        _tile[y, x] = TileType.Wall;
+                    else
+                        _tile[y, x] = TileType.Empty;
+                }
+            }
+
+            // 랜덤으로 우측 or 아래로 길을 뚫는 작업
+            // 맨 오른쪽 -1, 맨 아래 -1 부분은 일렬로 연결되는 단점 있음
+            Random rand = new Random();
+            for (int y = 0; y < _size; y++)
+            {
+                int count = 1;
+                for (int x = 0; x < _size; x++)
+                {
+                    if (x % 2 == 0 || y % 2 == 0)
+                        continue;
+
+                    #region 맨 오른쪽, 맨 아래 벽 뚫리는걸 방지하는 부분
+                    if (y == _size - 2 && x == _size - 2)
+                        continue;
+
+                    if (y == _size - 2)
+                    {
+                        _tile[y, x + 1] = TileType.Empty;
+                        continue;
+                    }
+
+                    if (x == _size - 2)
+                    {
+                        _tile[y + 1, x] = TileType.Empty;
+                        continue;
+                    }
+                    #endregion
+
+                    if (rand.Next(0, 2) == 0)
+                    {
+                        _tile[y, x + 1] = TileType.Empty;
+                        count++;
+                    }
+                    else
+                    {
+                        int randomIndex = rand.Next(0, count);
+                        _tile[y + 1, x - randomIndex * 2] = TileType.Empty;
+                        count = 1;
+                    }
 
                 }
             }
