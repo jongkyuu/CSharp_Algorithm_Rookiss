@@ -13,6 +13,9 @@ namespace ch3_MapCreate
         const char CIRCLE = '\u25cf';
         Player _player;
 
+        public int DestY { get; set; }
+        public int DestX { get; set; }
+
         public enum TileType
         {
             Empty,
@@ -27,6 +30,9 @@ namespace ch3_MapCreate
             _player = player;
             Tile = new TileType[size, size];
             Size = size;
+
+            DestY = Size - 2;
+            DestX = Size - 2;
 
             for (int y = 0; y < size; y++)
             {
@@ -175,6 +181,10 @@ namespace ch3_MapCreate
                     if (y == _player.PosY && x == _player.PosX)
                     {
                         Console.ForegroundColor = ConsoleColor.Blue;
+                    }
+                    else if (y == DestY && x == DestX)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
                     }
                     else
                     {
