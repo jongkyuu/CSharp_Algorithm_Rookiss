@@ -6,6 +6,17 @@ using System.Threading.Tasks;
 
 namespace ch3_MapCreate
 {
+    class Pos
+    {
+        public int Y { get; set; }
+        public int X { get; set; }
+
+        public Pos(int y, int x)
+        {
+            Y = y;
+            X = x;
+        }
+    }
     class Player
     {
         // 외부에서도 사용할 것이기 때문에 프로퍼티로 만듬
@@ -16,8 +27,7 @@ namespace ch3_MapCreate
         Board _board;
 
         int _direction = (int)Direction.Up;
-
-
+        List<Pos> _points = new List<Pos>();
 
         enum Direction
         {
@@ -28,13 +38,12 @@ namespace ch3_MapCreate
             Right = 3
         }
 
-        
-
         public void Initialize(int posY, int posX, Board board)
         {
             PosY = posY;
             PosX = posX;
             _board = board;
+            _points.Add(new Pos(PosY, PosX));
 
             // 현재 바라보고 있는 방향을 기준으로 좌표 변화를 나타낸다.
             int[] frontY = new int[] { -1, 0, 1, 0 };
@@ -53,6 +62,8 @@ namespace ch3_MapCreate
                     // 앞으로 한 보 전진
                     PosY = PosY + frontY[_direction];
                     PosX = PosX + frontX[_direction];
+                    _points.Add(new Pos(PosY, PosX));
+
                 }
                 // 2. 현재 바라보는 방향을 기준으로 전진할 수 있는지 확인
                 else if (_board.Tile[PosY + frontY[_direction], PosX + frontX[_direction]] == Board.TileType.Empty)
@@ -60,6 +71,8 @@ namespace ch3_MapCreate
                     // 앞으로 한 보 전진
                     PosY = PosY + frontY[_direction];
                     PosX = PosX + frontX[_direction];
+                    _points.Add(new Pos(PosY, PosX));
+
                 }
                 else
                 {
@@ -73,34 +86,78 @@ namespace ch3_MapCreate
         // 1/30초마다 한칸씩 이동하면 너무 빠르므로 이전 틱과 현재 틱 사이의 경과된 시간을 넘겨줌.  시간에 따라 행동 결정
         const int MOVE_TICK = 10; // 100ms (0.1초)
         int _sumTick = 0;
+        int _lastIndex = 0;
+
         public void Update(int deltaTick)
         {
+            if (_lastIndex >= _points.Count)
+                return;
+
             _sumTick += deltaTick;
             if(_sumTick >= MOVE_TICK)
             {
                 _sumTick = 0;
 
                 // 여기에 0.1초마다 실행될 로직을 넣어줌
-                int randomValue = _random.Next(0, 5);
-                switch (randomValue)
-                {
-                    case 0: // 상
-                        if (PosY - 1 >= 0 && _board.Tile[PosY - 1, PosX] == Board.TileType.Empty)
-                            PosY -= 1;
-                        break;
-                    case 1: // 하
-                        if (PosY + 1 < _board.Size && _board.Tile[PosY + 1, PosX] == Board.TileType.Empty)
-                            PosY += 1;
-                            break;
-                    case 2: // 좌
-                        if (PosX - 1 >= 0 && _board.Tile[PosY, PosX - 1] == Board.TileType.Empty)
-                            PosX -= 1;
-                        break;
-                    case 3: // 우
-                        if (PosX + 1 < _board.Size &&_board.Tile[PosY, PosX + 1] == Board.TileType.Empty)
-                            PosX += 1;
-                        break;
-                }
+                PosY = _points[_lastIndex].Y;
+                PosX = _points[_lastIndex].X;
+                _lastIndex++;
+            }
+        }
+
+        public void RightHandMove()
+        {
+            // 현재 바라보고 있는 방향을 기준으로 좌표 변화를 나타낸다.
+            int[] frontY = new int[] { -1, 0, 1, 0 };
+            int[] frontX = new int[] { 0, -1, 0, 1 };
+            int[] rightY = new int[] { 0, -1, 0, 1 };
+            int[] rightX = new int[] { 1, 0, -1, 0 };
+
+            // 1. 현재 바라보는 방향을 기준으로 오른쪽으로 갈 수 있는지 확인
+            if (_board.Tile[PosY + rightY[_direction], PosX + rightX[_direction]] == Board.TileType.Empty)
+            {
+                // 오른쪽 방향으로 90도 회전
+                _direction = (_direction - 1 + 4) % 4;
+                // 앞으로 한 보 전진
+                PosY = PosY + frontY[_direction];
+                PosX = PosX + frontX[_direction];
+            }
+            // 2. 현재 바라보는 방향을 기준으로 전진할 수 있는지 확인
+            else if (_board.Tile[PosY + frontY[_direction], PosX + frontX[_direction]] == Board.TileType.Empty)
+            {
+                // 앞으로 한 보 전진
+                PosY = PosY + frontY[_direction];
+                PosX = PosX + frontX[_direction];
+            }
+            else
+            {
+                // 왼쪽 방향으로 90도 회전
+                _direction = (_direction + 1 + 4) % 4;
+            }
+        }
+
+
+        public void RandomMove()
+        {
+            int randomValue = _random.Next(0, 5);
+            switch (randomValue)
+            {
+                case 0: // 상
+                    if (PosY - 1 >= 0 && _board.Tile[PosY - 1, PosX] == Board.TileType.Empty)
+                        PosY -= 1;
+                    break;
+                case 1: // 하
+                    if (PosY + 1 < _board.Size && _board.Tile[PosY + 1, PosX] == Board.TileType.Empty)
+                        PosY += 1;
+                    break;
+                case 2: // 좌
+                    if (PosX - 1 >= 0 && _board.Tile[PosY, PosX - 1] == Board.TileType.Empty)
+                        PosX -= 1;
+                    break;
+                case 3: // 우
+                    if (PosX + 1 < _board.Size && _board.Tile[PosY, PosX + 1] == Board.TileType.Empty)
+                        PosX += 1;
+                    break;
             }
         }
 

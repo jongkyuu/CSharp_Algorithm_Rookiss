@@ -34,17 +34,18 @@ namespace ch3_MapCreate
             DestY = Size - 2;
             DestX = Size - 2;
 
-            for (int y = 0; y < size; y++)
-            {
-                for (int x = 0; x < Size; x++)
-                {
-                    if (x == 0 || x == Size - 1 || y == 0 || y == Size - 1)
-                        Tile[y, x] = TileType.Wall;
-                    else
-                        Tile[y, x] = TileType.Empty;
+            GenerateBySideWinder();
+            //for (int y = 0; y < size; y++)
+            //{
+            //    for (int x = 0; x < Size; x++)
+            //    {
+            //        if (x == 0 || x == Size - 1 || y == 0 || y == Size - 1)
+            //            Tile[y, x] = TileType.Wall;
+            //        else
+            //            Tile[y, x] = TileType.Empty;
 
-                }
-            }
+            //    }
+            //}
         }
 
         public void BinaryTreeMaze(int size)
@@ -58,6 +59,7 @@ namespace ch3_MapCreate
             //GenerateByBinaryTree();
             GenerateBySideWinder();
         }
+
 
         void GenerateByBinaryTree()
         {

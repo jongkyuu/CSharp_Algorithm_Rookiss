@@ -35,17 +35,18 @@ namespace ch3_MapCreate
 
                 #region 프레임관리(30프레임으로 설정)
                 int currentTick = System.Environment.TickCount;  // 현재시간 저장. TickCount는 절대적인 시간은 아니고 시스템이 시작된 이후 경과된 밀리세컨드임.
-                //int elapsedTick = currentTick - lastTick;  // 경과 시간
 
                 //만약 경과한 시간이 1/30 초보다 작다면 
                 if (currentTick - lastTick < WAIT_TICK)
                     continue;
-                int deltaTick = currentTick - lastTick;
+                int deltaTick = currentTick - lastTick;  // 경과 시간
                 lastTick = currentTick;
                 #endregion
 
+                // 로직
                 player.Update(deltaTick);
 
+                // 랜더링
                 Console.SetCursorPosition(0, 0);
                 board.Render();
             }
