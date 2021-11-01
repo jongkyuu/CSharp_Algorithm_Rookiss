@@ -138,7 +138,7 @@ namespace ch3_MapCreate
                     if (x % 2 == 0 || y % 2 == 0)
                         continue;
 
-                    #region 맨 오른쪽, 맨 아래 벽 뚫리는걸 방지하는 부분
+                    #region 맨 오른쪽, 맨 아래 벽(Size-1, Size-1) 뚫리는걸 방지하는 부분
                     if (y == Size - 2 && x == Size - 2)
                         continue;
 

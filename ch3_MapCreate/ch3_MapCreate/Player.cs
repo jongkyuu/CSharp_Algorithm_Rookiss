@@ -54,31 +54,35 @@ namespace ch3_MapCreate
             // 목적지 도착하기 전에는 계속 실행
             while (PosY != board.DestY || PosX != board.DestX)
             {
-                // 1. 현재 바라보는 방향을 기준으로 오른쪽으로 갈 수 있는지 확인
-                if (_board.Tile[PosY + rightY[_direction], PosX + rightX[_direction]] == Board.TileType.Empty)
-                {
-                    // 오른쪽 방향으로 90도 회전
-                    _direction = (_direction - 1 + 4) % 4;
-                    // 앞으로 한 보 전진
-                    PosY = PosY + frontY[_direction];
-                    PosX = PosX + frontX[_direction];
-                    _points.Add(new Pos(PosY, PosX));
+                RightHandMove(_points);
 
-                }
-                // 2. 현재 바라보는 방향을 기준으로 전진할 수 있는지 확인
-                else if (_board.Tile[PosY + frontY[_direction], PosX + frontX[_direction]] == Board.TileType.Empty)
-                {
-                    // 앞으로 한 보 전진
-                    PosY = PosY + frontY[_direction];
-                    PosX = PosX + frontX[_direction];
-                    _points.Add(new Pos(PosY, PosX));
+                #region RightHandMove 함수로 이동
+                //// 1. 현재 바라보는 방향을 기준으로 오른쪽으로 갈 수 있는지 확인
+                //if (_board.Tile[PosY + rightY[_direction], PosX + rightX[_direction]] == Board.TileType.Empty)
+                //{
+                //    // 오른쪽 방향으로 90도 회전
+                //    _direction = (_direction - 1 + 4) % 4;
+                //    // 앞으로 한 보 전진
+                //    PosY = PosY + frontY[_direction];
+                //    PosX = PosX + frontX[_direction];
+                //    _points.Add(new Pos(PosY, PosX));
 
-                }
-                else
-                {
-                    // 왼쪽 방향으로 90도 회전
-                    _direction = (_direction + 1 + 4) % 4;
-                }
+                //}
+                //// 2. 현재 바라보는 방향을 기준으로 전진할 수 있는지 확인
+                //else if (_board.Tile[PosY + frontY[_direction], PosX + frontX[_direction]] == Board.TileType.Empty)
+                //{
+                //    // 앞으로 한 보 전진
+                //    PosY = PosY + frontY[_direction];
+                //    PosX = PosX + frontX[_direction];
+                //    _points.Add(new Pos(PosY, PosX));
+
+                //}
+                //else
+                //{
+                //    // 왼쪽 방향으로 90도 회전
+                //    _direction = (_direction + 1 + 4) % 4;
+                //}
+                #endregion
             }
         }
 
@@ -105,7 +109,7 @@ namespace ch3_MapCreate
             }
         }
 
-        public void RightHandMove()
+        public void RightHandMove(List<Pos> _points)
         {
             // 현재 바라보고 있는 방향을 기준으로 좌표 변화를 나타낸다.
             int[] frontY = new int[] { -1, 0, 1, 0 };
@@ -121,6 +125,7 @@ namespace ch3_MapCreate
                 // 앞으로 한 보 전진
                 PosY = PosY + frontY[_direction];
                 PosX = PosX + frontX[_direction];
+                _points.Add(new Pos(PosY, PosX));
             }
             // 2. 현재 바라보는 방향을 기준으로 전진할 수 있는지 확인
             else if (_board.Tile[PosY + frontY[_direction], PosX + frontX[_direction]] == Board.TileType.Empty)
@@ -128,6 +133,7 @@ namespace ch3_MapCreate
                 // 앞으로 한 보 전진
                 PosY = PosY + frontY[_direction];
                 PosX = PosX + frontX[_direction];
+                _points.Add(new Pos(PosY, PosX));
             }
             else
             {
