@@ -9,7 +9,7 @@ namespace CreateGraph
         // 행렬(2차원 배열) 버전
         int[,] adj = new int[6, 6]
         {
-            { 0, 1, 1, 0, 0, 0 },
+            { 0, 1, 0, 1, 0, 0 },
             { 1, 0, 1, 1, 0, 0 },
             { 0, 1, 0, 0, 0, 0 },
             { 1, 1, 0, 0, 1, 0 },
@@ -33,6 +33,39 @@ namespace CreateGraph
                     continue;
                 DFS(next);
 
+            }
+        }
+
+        // 방문한 시점에서의 추가적인 정보를 잘 기입하면 많은 정보를 도출할 수 있다.
+        public void BFS(int start)
+        {
+            bool[] found = new bool[6];
+            int[] parent = new int[6];
+            int[] distance = new int[6];
+
+            Queue<int> q = new Queue<int>();
+            q.Enqueue(start);
+            found[start] = true;
+            parent[start] = start;
+            distance[start] = 0;
+
+            while(q.Count > 0)
+            {
+                int now = q.Dequeue();
+                Console.WriteLine(now);
+
+                for(int next=0; next < adj.GetLength(0); next++)
+                {
+                    if (adj[now, next] == 0)  // 인접하지 않았으면 스킵
+                        continue;
+                    if (found[next])  // 이미 발견했다면 스킵
+                        continue;
+
+                    q.Enqueue(next);
+                    found[next] = true;
+                    parent[next] = now;
+                    distance[next] = distance[now] + 1;
+                }
             }
         }
 
@@ -66,6 +99,7 @@ namespace CreateGraph
 
         // 만약 모든 정점이 연결된게 아니라 중간에 길이 끊겨있다면 일부만 서치하고 끝나게 되는 문제가 있음
         // 혹시 방문하지 않은 정점이 있다면 그 정점을 기준으로 다시 DFS를 해야함
+        // adj3은 3번과 4번 사이 연결된 엣지를 끊음
 
         int[,] adj3 = new int[6, 6]
         {
@@ -112,11 +146,14 @@ namespace CreateGraph
         static void Main(string[] args)
         {
             // DFS (Depth First Search 깊이 우선 탐색)
-            // BFS (Breadth Firsh Search 너비 우선 탐색)
             Graph graph = new Graph();
             //graph.DFS(3);
             //graph.DFS2(0);
-            graph.SearchAll();
+            //graph.SearchAll();
+
+            // BFS (Breadth Firsh Search 너비 우선 탐색)
+            // 최단거리 길찾기에 주로 사용
+            graph.BFS(0);
         }
 
     }
