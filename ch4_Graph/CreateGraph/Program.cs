@@ -45,6 +45,7 @@ namespace CreateGraph
 
             Queue<int> q = new Queue<int>();
             q.Enqueue(start);
+
             found[start] = true;
             parent[start] = start;
             distance[start] = 0;
@@ -62,6 +63,7 @@ namespace CreateGraph
                         continue;
 
                     q.Enqueue(next);
+
                     found[next] = true;
                     parent[next] = now;
                     distance[next] = distance[now] + 1;
