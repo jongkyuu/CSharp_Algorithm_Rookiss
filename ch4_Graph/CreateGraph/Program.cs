@@ -162,6 +162,27 @@ namespace CreateGraph
             Array.Fill(distance, Int32.MaxValue);
 
             distance[start] = 0;
+
+            while(true)
+            {
+                // 제일 좋은 후보를 찾는다.(가장 가까이에 있는)
+
+                // 가장 유력한 후보의 거리와 번호를 저장한다
+                int closest = Int32.MaxValue; // 엄청 큰 값을 초기값으로 셋팅
+                int now = -1;  // -1이라는 비현실적인 값을 셋팅
+                for (int i = 0; i < adj4.Length; i++)
+                {
+                    // 이미 방문한 정점은 스킵
+                    if (visited[i])
+                        continue;
+                    // 아직 발견(예약)된 적이 없거나 기존 후보보다 멀리 있으면 스킵
+                    if (distance[i] == Int32.MaxValue || distance[i] >= closest)
+                        continue;
+                    
+
+                }
+
+            }
         }
 
     }
