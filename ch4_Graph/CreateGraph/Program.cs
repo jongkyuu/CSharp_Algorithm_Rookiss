@@ -157,11 +157,13 @@ namespace CreateGraph
         {
             bool[] visited = new bool[6]; // find 여부보다 실제로 방문 했는지가 중요함
             int[] distance = new int[6];  // 여기서는 최단거리를 기입
+            int[] parent = new int[6]; // 부모 정점을 기입
 
             // 초기값이 0인지, 방문을 못해서 0인지 헷갈리기 떄문에 기본값을 매우 큰 값으로 설정
             Array.Fill(distance, Int32.MaxValue);
 
             distance[start] = 0;
+            parent[start] = 0;
 
             while(true)
             {
@@ -171,7 +173,7 @@ namespace CreateGraph
                 int closest = Int32.MaxValue; // 엄청 큰 값을 초기값으로 셋팅
                 int now = -1;  // -1이라는 비현실적인 값을 셋팅
 
-                for (int i = 0; i < adj4.Length; i++)
+                for (int i = 0; i < adj4.GetLength(0); i++)
                 {
                     // 이미 방문한 정점은 스킵
                     if (visited[i])
@@ -198,15 +200,22 @@ namespace CreateGraph
                 for (int next = 0; next < 6; next++)
                 {
                     // 연결되지 않은 정점 스킵
-                    if (adj[now, next] == -1)
+                    if (adj4[now, next] == -1)
                         continue;
                     // 이미 방문한 정점은 스킵 
                     if (visited[next])
                         continue;
-                    
+
+                    // 새로 조사된 정점의 최단거리를 계산한다
+                    int nextDist = distance[now] + adj4[now, next];
+                    // 만약 기존에 발견한 최단거리가 새로 조사된 최단거리보다 크면 정보를 갱신
+                    // next가 한번도 방문하지 않은 지점일 경우 distance[next]는 매우 큰값이므로 if 안쪽으로 들어감
+                    if(nextDist < distance[next])
+                    {
+                        distance[next] = nextDist;
+                        parent[next] = now;
+                    }
                 }
-
-
             }
         }
 
@@ -224,7 +233,11 @@ namespace CreateGraph
 
             // BFS (Breadth Firsh Search 너비 우선 탐색)
             // 최단거리 길찾기에 주로 사용
-            graph.BFS(0);
+            //graph.BFS(0);
+
+            // Dajikstra (다익스트라)
+            graph.Dijikstra(0);
+
         }
 
     }
