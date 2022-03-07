@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapCreate", "MapCreate\MapC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ch5_Tree", "ch5_Tree\ch5_Tree.csproj", "{3FD5AC4F-B96D-4A8E-B7F6-7BEB38ADF969}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriorityQueue", "PriorityQueue\PriorityQueue.csproj", "{D02AA8CC-A447-4CBA-B54E-7379326BF940}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriorityQueue", "PriorityQueue\PriorityQueue.csproj", "{D02AA8CC-A447-4CBA-B54E-7379326BF940}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriorityQueueGeneric", "PriorityQueueGeneric\PriorityQueueGeneric.csproj", "{13D6627B-30E6-423F-9298-571FB4DA1821}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{D02AA8CC-A447-4CBA-B54E-7379326BF940}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D02AA8CC-A447-4CBA-B54E-7379326BF940}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D02AA8CC-A447-4CBA-B54E-7379326BF940}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13D6627B-30E6-423F-9298-571FB4DA1821}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13D6627B-30E6-423F-9298-571FB4DA1821}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13D6627B-30E6-423F-9298-571FB4DA1821}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13D6627B-30E6-423F-9298-571FB4DA1821}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
